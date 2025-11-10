@@ -1,22 +1,26 @@
+import { useRef } from "react";
 import cx from "clsx";
+import { useFormContext } from "react-hook-form";
 
 import styles from "./styles.module.scss";
-import { useFormContext } from "react-hook-form";
-import { useRef } from "react";
 
 interface InputGroupProps {
+  groupIndex: number;
   wordLength?: number;
 }
 
-const InputGroup = ({ wordLength = 5 }: InputGroupProps) => {
+const InputGroup = ({ groupIndex = 0, wordLength = 5 }: InputGroupProps) => {
   const currentFocusIndexRef = useRef(0);
 
   const {
     register,
     setFocus,
     setValue,
+    getValues,
     formState: { errors },
   } = useFormContext();
+
+  const word = getValues("word");
 
   const nextInput = () => {
     if (currentFocusIndexRef.current >= wordLength - 1) return;
@@ -34,8 +38,7 @@ const InputGroup = ({ wordLength = 5 }: InputGroupProps) => {
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
-
-    // console.log("key", key);
+    const inputName = `${groupIndex}_${currentFocusIndexRef.current}`;
 
     switch (key) {
       case "ArrowLeft":
@@ -45,7 +48,7 @@ const InputGroup = ({ wordLength = 5 }: InputGroupProps) => {
       case "Enter":
         return;
       case "Backspace":
-        setValue(currentFocusIndexRef.current + "", "");
+        setValue(inputName, "");
         event.preventDefault();
         prevInput();
         break;
@@ -58,7 +61,7 @@ const InputGroup = ({ wordLength = 5 }: InputGroupProps) => {
           return;
         }
 
-        setValue(currentFocusIndexRef.current + "", key.toLocaleUpperCase());
+        setValue(inputName, key.toLocaleUpperCase());
         nextInput();
     }
   };
@@ -66,19 +69,33 @@ const InputGroup = ({ wordLength = 5 }: InputGroupProps) => {
   return (
     <div className={cx(styles.inputGroup)}>
       {Array.from(new Array(wordLength)).map((_, i) => {
-        const regis = register(i + "", {
+        const inputName = `${groupIndex}_${i}`;
+        const regis = register(inputName, {
           required: { value: true, message: "" },
         });
-        const isError = !!errors[i];
+
+        const isError = !!errors[inputName];
+
+        const isFilled = getValues().input[groupIndex]?.isFilled || false;
+        const key = isFilled
+          ? String(getValues(inputName)).toLocaleLowerCase()
+          : "";
+
+        const isCorrect = key && key === word[i];
+        const isElsewhere = key && !isCorrect && word.includes(key);
 
         return (
           <input
             {...regis}
-            autoFocus
             key={i}
+            autoFocus={!i}
             autoCorrect={undefined}
             autoComplete={undefined}
-            className={cx("font-main", { [styles.error]: isError })}
+            className={cx("font-main", {
+              [styles.error]: isError,
+              [styles.correct]: isCorrect,
+              [styles.elsewhere]: isElsewhere,
+            })}
             onChange={() => {}}
             onKeyDown={onKeyDown}
             onFocus={() => (currentFocusIndexRef.current = i)}
