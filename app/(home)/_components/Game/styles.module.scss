@@ -2,29 +2,45 @@
 }
 
 .inputGroup {
-  gap: 4px;
+  gap: 8px;
   display: flex;
+  margin-bottom: 8px;
 
   input {
     width: 64px;
     height: 64px;
     font-size: 32px;
+    font-weight: 900;
     text-align: center;
     border-radius: 4px;
-    border: 1px solid #000;
     vertical-align: middle;
     caret-color: transparent;
+    border: 1px solid #a6aebf;
+
+    &:focus {
+      outline: none;
+      border: 2px solid #40a2e3;
+    }
   }
 
   .error {
-    border: 1px solid red;
+    border: 2px solid #fdab9e;
   }
 
   .correct {
-    background: limegreen;
+    background: #78c841;
   }
 
   .elsewhere {
-    background: goldenrod;
+    background: #ffcf50;
+  }
+
+  .absent {
+    background: #a6aebf;
+  }
+
+  .filled {
+    color: white;
+    border: none;
   }
 }

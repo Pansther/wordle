@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
 import InputGroup from "./InputGroup";
 
 import { generateWord } from "./helper";
 
-import { GameFormValues } from "./type";
+import { GameFormValues, GameState } from "./type";
 
 const Game = () => {
+  const [gameState, setGameState] = useState<GameState>(GameState.Play);
+
   const form = useForm({
     defaultValues: {
       word: generateWord(),
@@ -20,14 +22,33 @@ const Game = () => {
     name: "input",
   });
 
+  const onFinish = () => {
+    setTimeout(() => {
+      alert("You Win !");
+      setGameState(GameState.Win);
+    }, 300);
+  };
+
   const onSubmit = (formValues: GameFormValues) => {
     delete formValues.input;
 
     const activeGroupIndex = fields.length - 1;
-    const activeFormValues = Object.entries(formValues).filter(
-      ([key]) => key[0] === String(activeGroupIndex),
-    );
+    const activeFormValues = Object.entries(formValues).filter(([key]) => {
+      const prefix = key.split("_")[0];
+      return prefix === String(activeGroupIndex);
+    });
+
     const input = Object.fromEntries(activeFormValues);
+    const guessWord = Object.values(input).join("");
+
+    if (guessWord.toLocaleLowerCase() === formValues.word) {
+      update(fields.length - 1, {
+        input,
+        isFilled: true,
+      });
+
+      return onFinish();
+    }
 
     appendBlank();
     update(fields.length - 1, {
@@ -47,6 +68,20 @@ const Game = () => {
     });
   };
 
+  const giveUp = () => {
+    const word = form.getValues("word");
+
+    setGameState(GameState.Lost);
+    alert(`You Lost !, word is "${word}".`);
+  };
+
+  const restart = () => {
+    form.reset();
+    form.setValue("word", generateWord());
+    appendBlank();
+    setGameState(GameState.Play);
+  };
+
   useEffect(() => {
     appendBlank();
 
@@ -57,9 +92,21 @@ const Game = () => {
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit, onError)}>
         {fields.map((_, i) => (
-          <InputGroup key={i} groupIndex={i} />
+          <InputGroup key={i} groupIndex={i} gameState={gameState} />
         ))}
-        <button type="submit">ENTER</button>
+
+        {gameState === GameState.Play ? (
+          <div className="flex gap-4">
+            <button type="button" onClick={giveUp}>
+              GIVE UP
+            </button>
+            <button type="submit">ENTER</button>
+          </div>
+        ) : (
+          <button type="button" onClick={restart}>
+            RESTART
+          </button>
+        )}
       </form>
     </FormProvider>
   );
