@@ -4,9 +4,9 @@ import Game from "./_components/Game";
 
 const HomeView = () => {
   return (
-    <div>
+    <main>
       <Game />
-    </div>
+    </main>
   );
 };
 

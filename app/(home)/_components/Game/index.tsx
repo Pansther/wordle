@@ -7,6 +7,9 @@ import { generateWord } from "./helper";
 
 import { GameFormValues, GameState } from "./type";
 
+import styles from "./styles.module.scss";
+import Button from "../Button";
+
 const Game = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.Play);
 
@@ -90,22 +93,29 @@ const Game = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit, onError)}>
-        {fields.map((_, i) => (
-          <InputGroup key={i} groupIndex={i} gameState={gameState} />
-        ))}
+      <form
+        className={styles.gameContainer}
+        onSubmit={form.handleSubmit(onSubmit, onError)}
+      >
+        <div>
+          {fields.map((_, i) => (
+            <InputGroup key={i} groupIndex={i} gameState={gameState} />
+          ))}
+        </div>
 
         {gameState === GameState.Play ? (
-          <div className="flex gap-4">
-            <button type="button" onClick={giveUp}>
+          <div className="flex gap-2">
+            <Button variant="danger" onClick={giveUp}>
               GIVE UP
-            </button>
-            <button type="submit">ENTER</button>
+            </Button>
+            <Button type="submit" variant="primary">
+              ENTER
+            </Button>
           </div>
         ) : (
-          <button type="button" onClick={restart}>
+          <Button variant="primary" onClick={restart}>
             RESTART
-          </button>
+          </Button>
         )}
       </form>
     </FormProvider>
