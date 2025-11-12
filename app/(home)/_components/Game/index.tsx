@@ -31,7 +31,18 @@ const Game = () => {
 
   const onFinish = () => {
     setTimeout(() => {
-      alert("You Win !");
+      Modal.fire({
+        title: "You Win !",
+        showCloseButton: true,
+        showConfirmButton: false,
+        html: (
+          <div className="flex flex-col gap-8 items-center">
+            <Button variant="primary" onClick={restart} style={{ width: 150 }}>
+              RESTART
+            </Button>
+          </div>
+        ),
+      });
       setGameState(GameState.Win);
     }, 300);
   };

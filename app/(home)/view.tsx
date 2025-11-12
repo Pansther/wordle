@@ -1,12 +1,17 @@
 "use client";
 
 import Game from "./_components/Game";
+import Footer from "./_components/Footer";
 
 const HomeView = () => {
   return (
-    <main>
-      <Game />
-    </main>
+    <>
+      <main>
+        <Game />
+      </main>
+
+      <Footer />
+    </>
   );
 };
 

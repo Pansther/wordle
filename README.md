@@ -1,37 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧩 Wordle Game
 
-## Getting Started
+This project is built using Next.js v16 + TypeScript | [Play](https://wwdev-wordle.vercel.app/)
 
-First, run the development server:
+![image](./public/cover.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+A fun, simple, and highly addictive daily word puzzle game where players have unlimitted attempts to guess a five-letter word.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Gameplay
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The objective is to guess the secret five-letter word.
 
-## Learn More
+1. **Enter your guess:** Type a valid five-letter word and press Enter.
+2. **Receive feedback:** After each guess, the color of the tiles will change to provide clues:
+   - **🟢 Green:** The letter is correct and in the correct position.
+   - **🟡 Yellow:** The letter is correct but is in the wrong position.
+   - **⚫ Gray:** The letter is not in the word at all.
+3. **Use the clues:** Use the color feedback to inform your next guess and try to solve the word
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧩 เกม Wordle
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+เกมปริศนาทายคำศัพท์รายวันที่สนุก เรียบง่าย และน่าติดตามอย่างยิ่ง โดยผู้เล่นมีโอกาสทายคำศัพท์ห้าตัวอักษรได้หกครั้ง
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### วิธีเล่น
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# wordle
+เป้าหมายคือการทายคำศัพท์ลับห้าตัวอักษรให้ได้
+
+1. **ป้อนคำทายของคุณ:** พิมพ์คำศัพท์ที่ถูกต้องที่มีห้าตัวอักษร แล้วกด Enter
+2. **รับผลตอบรับ:** หลังจากทายแต่ละครั้ง สีของช่องตัวอักษรจะเปลี่ยนไปเพื่อเป็นเบาะแส:
+   - **🟢 สีเขียว:** ตัวอักษรถูกต้องและอยู่ในตำแหน่งที่ถูกต้อง
+   - **🟡 สีเหลือง:** ตัวอักษรถูกต้อง แต่อยู่ในตำแหน่งที่ผิด
+   - **⚫ สีเทา:** ตัวอักษรนี้ไม่ได้อยู่ในคำศัพท์เลย
+3. **ใช้เบาะแส:** ใช้สีที่ได้รับเพื่อช่วยในการทายครั้งต่อไป และพยายามหาคำตอบให้ได้
+
+---
+
+### ความคิดเห็น
+
+ทดลองใช้ Next.js v16 ทำเกมง่าย ๆ เล่น ไม่ได้ขัดเกลาโค้ดมากเท่าไรอาจจะมีบางจุดที่เขียนไม่ได้ดีมาก เน้นทำให้เสร็จ
+
+NOTE: เขียนโค้ดเองทั้งหมด แต่ใช้ Gemeni ช่วยเขียน README.md และ ChatGPT สร้าง OG Image
+
+### ขอบคุณครับ อย่าลืมลองไปเล่นกันนะ
