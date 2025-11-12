@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
+import Button from "../Button";
 import InputGroup from "./InputGroup";
 
 import { generateWord } from "./helper";
@@ -8,7 +11,8 @@ import { generateWord } from "./helper";
 import { GameFormValues, GameState } from "./type";
 
 import styles from "./styles.module.scss";
-import Button from "../Button";
+
+const Modal = withReactContent(Swal);
 
 const Game = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.Play);
@@ -75,10 +79,26 @@ const Game = () => {
     const word = form.getValues("word");
 
     setGameState(GameState.Lost);
-    alert(`You Lost !, word is "${word}".`);
+
+    Modal.fire({
+      title: "You Lost !",
+      showCloseButton: true,
+      showConfirmButton: false,
+      html: (
+        <div className="flex flex-col gap-8 items-center">
+          <p>
+            The answer was <b>&quot;{word}&quot;</b>
+          </p>
+          <Button variant="primary" onClick={restart} style={{ width: 150 }}>
+            RESTART
+          </Button>
+        </div>
+      ),
+    });
   };
 
   const restart = () => {
+    Modal.close();
     form.reset();
     form.setValue("word", generateWord());
     appendBlank();
