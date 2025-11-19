@@ -49,6 +49,22 @@ const InputGroup = ({
     setFocus(inputName);
   };
 
+  const onInput = (event: React.FormEvent<HTMLInputElement>) => {
+    const key = event.currentTarget?.value?.at(-1)?.toLocaleUpperCase();
+    const inputName = `${groupIndex}_${currentFocusIndexRef.current}`;
+    const charCode = key?.charCodeAt(0) ?? 0;
+
+    if (charCode < 65 || charCode > 90) {
+      setValue(inputName, "");
+      event.preventDefault();
+
+      return;
+    }
+
+    setValue(inputName, key);
+    nextInput();
+  };
+
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
     const inputName = `${groupIndex}_${currentFocusIndexRef.current}`;
@@ -80,17 +96,6 @@ const InputGroup = ({
         setValue(inputName, "");
         event.preventDefault();
         break;
-      default:
-        const keyCode = event.keyCode;
-
-        event.preventDefault();
-
-        if (keyCode < 65 || keyCode > 90) {
-          return;
-        }
-
-        setValue(inputName, key.toLocaleUpperCase());
-        nextInput();
     }
   };
 
@@ -130,6 +135,7 @@ const InputGroup = ({
               [styles.filled]: isFilled,
             })}
             onChange={() => {}}
+            onInput={onInput}
             onKeyDown={onKeyDown}
             onFocus={() => (currentFocusIndexRef.current = i)}
           />
